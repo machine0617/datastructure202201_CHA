@@ -6,7 +6,7 @@
 > 현재 메인 파일은 prototype2.py 파일입니다.
 
 ---
-# To Do List   
+## To Do List   
 - [x] ~~각각의 역 데이터를 담아둘 NodeList 구현~~   
 - [x] ~~텍스트파일에서 역 명들을 읽어오는 코드~~   
 - [x] ~~역명으로 해당 노드 찾아내는 search function 구현~~   
@@ -37,3 +37,10 @@ cf) ...-월계-성북-석계-신이문-외대앞-...
     - 1호선역9 = [ {{"name":"성북"}, next, prev }   
   - prev = 1호선역11 (Node통째로)   
     - 1호선역11 = [ {{"name":"신이문"}, next, prev }   
+
+---
+### 도움이되는 그림들?   
+   
+<img src="https://user-images.githubusercontent.com/60608787/169887176-507ef0b5-3251-4333-b775-108d97598fb7.png" width=75%>   
+   
+<img src="https://user-images.githubusercontent.com/60608787/169886693-7db83e11-105d-42d5-917f-245185379547.jpg" width=75%>   
