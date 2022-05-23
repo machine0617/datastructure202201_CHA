@@ -3,6 +3,21 @@ class StationNode:
         self.data = data
         self.prev = []
         self.next = []
+    def __str__(self):
+        print("{}, prev={}, next={}".format(self.data, self.prev, self.next))
+        return self.data["name"]
+    def printnode(self):
+        print("\"{}\"".format(self.data["name"]),end=' ')
+        print("prev=[",end='')
+        for j, prev in enumerate(self.prev):
+            print("\"{}\"".format(prev.data["name"]),end='')
+        print("], next=[",end='')
+        for j, next in enumerate(self.next):
+            print("\"{}\"".format(next.data["name"]),end='')
+        print("]")
+        # print("hahahahahah")
+        
+
 
 class DLinkedList():
     def __init__(self, station,transf_to=None):
@@ -38,14 +53,30 @@ class DLinkedList():
             print("{}".format(current.data))
             current = current.next
 
-def search_station(line,name):
+StationList=[]
+
+def search_station(searchname, line=None):
     # Search specific station in {StationList}
     # while loop on {StationList}, check if {StationList[i].name} is {"name"}
-    # If station we want is found then now {target} is {StationList[i]}
-    target=None
-    return target
+    
+    if line!=None:
+        for _, station in enumerate(NodeList[line-1]):
+            if station.data["name"] is searchname:
+                return station
+    else:
+        for i, Stations in enumerate(NodeList):
+            print("line#{}".format(i+1))
+            for _, station in enumerate(Stations):
+                # print(station.data["name"],end=' ')
+                # print("?=? ",end='')
+                # print(searchname)
+                if station.data["name"] == searchname:
+                    # print("found!")
+                    return station
+    return StationNode({"name":"NotFound"})
 
-StationList=[]
+
+################ StationList Initialization ################
 def getlinelist():
     f=open("./stations.txt","r",encoding="UTF-8")
     line = f.readline().strip()
@@ -57,22 +88,23 @@ def getlinelist():
     f.close()
 
 getlinelist()
-for _, Stations in enumerate(StationList):
-    print("{} : {}".format(_+1,Stations))
-    NodeList=[]
+NodeList=[]
+for n, Stations in enumerate(StationList):
+    print("StationList[{}] = {}".format(n,Stations),end="\n\n")
+    NodeList.append([])
     for i, station in enumerate(Stations):
         newnode = StationNode({"name":station})
-        NodeList.append(newnode)
+        NodeList[n].append(newnode)
         if i>0:
-            NodeList[i-1].next.append(newnode)
-            newnode.prev.append(NodeList[i-1])
+            NodeList[n][i-1].next.append(newnode)
+            newnode.prev.append(NodeList[n][i-1])
     # print(NodeList)
-    for i, node in enumerate(NodeList):
-        print("\"{}\"".format(node.data["name"]),end=' ')
-        print("prev=[",end='')
-        for j, prev in enumerate(node.prev):
-            print("\"{}\"".format(prev.data["name"]),end='')
-        print("], next=[",end='')
-        for j, next in enumerate(node.next):
-            print("\"{}\"".format(next.data["name"]),end='')
-        print("]")
+    for i, node in enumerate(NodeList[n]):
+        node.printnode()
+    print("StationList[{}] has been printed!\n-------------------".format(n))
+    ########################################################
+
+# for i,node in enumerate(NodeList[4]):
+#     node.printnode()
+gangdong = search_station("을지로")
+gangdong.printnode()
