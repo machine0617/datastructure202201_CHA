@@ -6,6 +6,16 @@
 > 현재 메인 파일은 prototype2.py 파일입니다.
 
 ---
+# To Do List   
+- [x] ~~각각의 역 데이터를 담아둘 NodeList 구현~~   
+- [x] ~~텍스트파일에서 역 명들을 읽어오는 코드~~   
+- [x] ~~역명으로 해당 노드 찾아내는 search function 구현~~   
+- [ ] 환승역 처리방식을 구상하기   
+- [ ] "stations_Done_data_processing.txt" 토대로 NodeList에 집어넣기   
+- [ ] spanning tree/BFS or DFS 사용하여 탐색알고리즘 구현   
+   
+   
+---
 **NodeList** 의 구조는 다음과 같습니다.   
    
 NodeList = [ [ 1호선역1, 1호선역2, 1호선역3, ... ] , [ 2호선역1, 2호선역2,, ... ] , [ 3호선역1, 3호선역2,, ... ] , [...] , [...] ... ]   
