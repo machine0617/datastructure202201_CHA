@@ -1,4 +1,4 @@
-f=open("./stations.txt","r")
+f=open("./stations.txt","r",encoding="UTF-8")
 
 # lines = f.readlines()
 
