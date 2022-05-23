@@ -104,7 +104,9 @@ for n, Stations in enumerate(StationList):
     print("StationList[{}] has been printed!\n-------------------".format(n))
     ########################################################
 
-# for i,node in enumerate(NodeList[4]):
-#     node.printnode()
-gangdong = search_station("을지로")
-gangdong.printnode()
+############ search_station ############
+## let's try testing search function! change "을지로" to another station name.
+## Because "을지로" doesn't exist, {search_result} shows name "NotFound".
+## If you change it to existing name, then you can get right result.
+search_result = search_station("을지로")
+search_result.printnode()
