@@ -67,7 +67,7 @@ for n, Stations in enumerate(StationList):
     for i, node in enumerate(NodeList[n]):
         node.printnode()
     print("StationList[{}] has been printed!\n-------------------".format(n))
-    ########################################################
+############################################################
 
 ############ search_station ############
 ## let's try testing search function! change "을지로" to another station name.
