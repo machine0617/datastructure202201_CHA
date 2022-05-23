@@ -16,6 +16,7 @@
           - 이때 search 함수는 StationNode 클래스에 포함시킨다.   
 - [ ] 환승역 처리방식을 구상하기   
 - [ ] "stations_Done_data_processing.txt" 토대로 NodeList에 집어넣기   
+        - 아마 이 위쪽 두개는 NodeList방식을 바꾸면서 저절로 이루어질듯함.   
 - [ ] spanning tree/BFS or DFS 사용하여 탐색알고리즘 구현   
    
    
