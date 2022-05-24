@@ -56,6 +56,7 @@ def getlinelist():
     while rdline != '':
         # print("rdline:\"{}\"".format(rdline))
         stations = rdline.split(",")
+        print("{}".format(stations))
         # print("stations={}".format(stations))
         if stations[0].isnumeric():
             # print("stations[0].isnumeric()")
@@ -67,24 +68,48 @@ def getlinelist():
         else:
             for i, stationname in enumerate(stations):
                 found = search_station(stationname)
-                if found == False:  # 이전에 없던 역 이름인경우
-                    if(i<=0):           # 분기점 or 시작점 인 경우
+                print("i={}".format(i))
+                if(found!=False):
+                    print("found={}({})".format(found.name, found.line))
+                else:
+                    print("found={}".format(found))
+                if found == False:
+                    if(i<=0):
                         newnode = StationNode(stationname, stationline)
                         NodeList[stationline-1].append(newnode)
-                    else:               # 분기점 or 시작점이 아닌경우(일반적인 중간역들)
+                    elif(i>0):
                         newnode = StationNode(stationname, stationline)
                         prevstation = search_station(stations[i-1], stationline)
-                        newnode.prev.append(prevstation)
                         prevstation.next.append(newnode)
+                        newnode.prev.append(prevstation)
                         NodeList[stationline-1].append(newnode)
-                else:               # 이미 존재하는 역 이름인경우
+                else:   # found != False
                     if found.line != stationline:
-                                        # 다른 라인의 같은이름역을 찾은경우
-                        # print("another line!")
                         newnode = StationNode(stationname, stationline)
-                        NodeList[stationline-1].append(newnode)
                         found.trsf.append(newnode)
                         newnode.trsf.append(found)
+                        NodeList[stationline-1].append(newnode)
+
+            # for i, stationname in enumerate(stations):
+            #     found = search_station(stationname)
+            #     if found == False:  # 이전에 없던 역 이름인경우
+            #         if(i<=0):           # 분기점 or 시작점 인 경우
+            #             newnode = StationNode(stationname, stationline)
+            #             NodeList[stationline-1].append(newnode)
+            #         else:               # 분기점 or 시작점이 아닌경우(일반적인 중간역들)
+            #             newnode = StationNode(stationname, stationline)
+            #             prevstation = search_station(stations[i-1], stationline)
+            #             newnode.prev.append(prevstation)
+            #             prevstation.next.append(newnode)
+            #             NodeList[stationline-1].append(newnode)
+            #     else:               # 이미 존재하는 역 이름인경우
+            #         if found.line != stationline:
+            #                             # 다른 라인의 같은이름역을 찾은경우
+            #             # print("another line!")
+            #             newnode = StationNode(stationname, stationline)
+            #             NodeList[stationline-1].append(newnode)
+            #             found.trsf.append(newnode)
+            #             newnode.trsf.append(found)
         rdline = f.readline().strip()
     f.close()
 ############################################################
