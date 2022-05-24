@@ -15,11 +15,7 @@ class StationNode:
         for j, next in enumerate(self.next):
             print("\"{}\"".format(next.data["name"]),end='')
         print("]")
-        # print("hahahahahah")
         
-
-StationList=[]
-
 def search_station(searchname, line=None):
     # Search specific station in {StationList}
     # while loop on {StationList}, check if {StationList[i].name} is {"name"}
@@ -52,6 +48,7 @@ def getlinelist():
     # print(StationList)
     f.close()
 
+StationList=[]
 getlinelist()
 NodeList=[]
 for n, Stations in enumerate(StationList):
