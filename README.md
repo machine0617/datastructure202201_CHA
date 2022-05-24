@@ -18,6 +18,7 @@
         - ~~아마 이 위쪽 두개는 NodeList방식을 바꾸면서 저절로 이루어질듯함.~~   
 - [ ] getlinelist()의 조건문을 더 체계적으로 정리하여, 정보업데이트가 누락되는 현상을 해결해야함.   
          - 분기점or시작점인경우, 이미존재하는 역이름인경우<- 의심되는구간. 노드간의 연결이 이루어지지 않음.
+- [ ] getlinelist()를 응용해서 adjacency list structure로 간선 구현.
 - [ ] spanning tree / DFS 사용하여 탐색알고리즘 구현   
    
    
@@ -53,3 +54,14 @@ cf) ...-월계-성북-석계-신이문-외대앞-...
 <img src="https://user-images.githubusercontent.com/60608787/169887176-507ef0b5-3251-4333-b775-108d97598fb7.png" width=75%>   
    
 <img src="https://user-images.githubusercontent.com/60608787/169886693-7db83e11-105d-42d5-917f-245185379547.jpg" width=75%>   
+
+<img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.wenyanet.com%2Fopensource%2Fko%2F60b8fabd29b0b36fe960cdb6.html&psig=AOvVaw32SLSzmvAfANwx51_L0b6A&ust=1653485866547000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCOCY5oOh-PcCFQAAAAAdAAAAABAP" width=75%>   
+
+현재 목표로 하는 데이터 구조는 다음과 같습니다. 마찬가지로 번호는 임의로 적었습니다.
+                           1호선역32 = [{"name":"시청"}, next, prev, trsf}
+                           -next =[ 1호선역31(Node통째로), 2(min) ]
+                           -prev = [ 1호선역 33(Node통째로), 3(min) ]
+                           -trsf = [ 2호선역 NN(Node통째로), 3(min) ]
+                              :일단 모든 환승시간은 3분으로 통일, 시간의 단위는 분이고 생량하겠습니다. 
+                           
+
