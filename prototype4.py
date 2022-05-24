@@ -1,11 +1,5 @@
 import pandas as pd
 
-#파일 전처리(이상한 부분 삭제)
-filename = 'C:/Users/SAMSUNG/source/repos/Station_Edge/Station_Edge/edges.csv'
-rawData = pd.read_csv(filename,encoding='cp949')
-file =  rawData.drop(['del1'], axis = 1)
-for i in range(2,5):
-    file = file.drop(['del{}'.format(i)], axis = 1)
 
 class StationNode:
     def __init__(self, name, line):
@@ -47,21 +41,12 @@ def search_station(searchname, searchline=None):
     if searchline!=None and searchline>0 and searchline<=len(NodeList):
         for _, Stations in enumerate(NodeList):
             for j, station in enumerate(Stations):
-                # station.printnode()
-                # print("searchname{},{}/".format(type(searchname),searchname))
-                # print("stationame{},{}/".format(type(station.name),station.name))
-                # print("searchline{},{}/".format(type(searchline),searchline))
-                # print("stationlin{},{}/".format(type(station.line),station.line))
-                # print(station.name == searchname)
-                # print(station.line == searchline)
                 if (station.name == searchname) and (station.line == searchline):
                     # print("!!!!!!!!!!")
                     return station
     else:  #찾고자 하는 특정 호선이 존재 안 함.
         # print("NodeList={}".format(NodeList))
-        for i, Stations in enumerate(NodeList):
-            # print("i={}, Stations=  {}".format(i, Stations))
-            # print("search from line#{}".format(i+1))
+        for i, Stations in enumerate(NodeList)
             for j, station in enumerate(Stations):
                 if station.name == searchname:
                     return station
@@ -71,46 +56,38 @@ def search_station(searchname, searchline=None):
 ################ StationList Initialization ################
 
 def getlinelist():
-    #Data로 file 사용
+    #파일 전처리(이상한 부분 삭제)
+    filename = 'C:/Users/SAMSUNG/source/repos/Station_Edge/Station_Edge/edges.csv'
+    rawData = pd.read_csv(filename,encoding='cp949')
+    file =  rawData.drop(['del1'], axis = 1)
+    for i in range(2,5):
+        file = file.drop(['del{}'.format(i)], axis = 1)
+
     for (idx, row) in (file.iterrows()):
         time = row[2]
         stationname = row[1]
         stationline = row[0]
-        # print("rdline:\"{}\"".format(rdline))
-        #print("{}".format(stationname))
-        # print("stations={}".format(stations))
         while len(NodeList)<stationline:
             NodeList.append([])
-        # print("stationline=",stationline)
-            # print(NodeList)
         found = search_station(stationname,stationline)
-                # print("i={}".format(i))
-                # if(found!=False):
-                #     print("found={}({})".format(found.name, found.line))
-                # else:
-                #     print("found={}".format(found))
-
-                # 만약 새로운역이면 추가. 이미 존재하는역(현재 라인 내에서 한정)일경우 패스
-        if found == False:  # new station in current line
-            if(stationline != file.iloc[idx-1,0]):       #시작점 (호선이 달라지는 경우)
+        if found == False:  # new station in current line # 만약 새로운역이면 추가. 이미 존재하는역(현재 라인 내에서 한정)일경우 패스
+            if(stationline != file.iloc[idx-1,0]):   #시작점 (호선이 달라지는 경우)
                 newnode = StationNode(stationname, stationline)
                 ##환승역 체크. 다른노선에 동일명의 역이 존재할경우 trsf에 추가##
                 trsffound = search_station(stationname)
                 if trsffound != False:
-                    edge = 3
+                    edge = 3        #환승시간 3분
                     i = append_trsf(newnode)
                     j = append_trsf(trsffound)
                     newnode.trsf[i].append(trsffound)
                     trsffound.trsf[j].append(newnode)
                     newnode.trsf[i].append(edge)
                     trsffound.trsf[j],append(edge)
-                    #print(newnode.trsf)
-                    #print(trsffound.trsf)
            ###################################################
                 print(newnode.name, newnode.next, newnode.trsf)
                 NodeList[stationline-1].append(newnode)
 
-            else:      # 그냥 중간역
+            else:   # 그냥 중간역
                 newnode = StationNode(stationname, stationline)
                 ##환승역 체크. 다른노선에 동일명의 역이 존재할경우 trsf에 추가##
                 trsffound = search_station(stationname)
