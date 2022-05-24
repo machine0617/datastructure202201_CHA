@@ -6,13 +6,16 @@ class StationNode:
         self.next = []
         self.trsf = []
     def printnode(self):
-        print("\"{}\"".format(self.name),end=' ')
+        print("\"{}({})\"".format(self.name,self.line),end='\t')
         print("prev=[",end='')
         for j, prev in enumerate(self.prev):
-            print("\"{}\"".format(prev.name),end='')
+            print("\"{}({})\"".format(prev.name,prev.line),end='')
         print("], next=[",end='')
         for j, next in enumerate(self.next):
-            print("\"{}\"".format(next.name),end='')
+            print("\"{}({})\"".format(next.name,next.line),end='')
+        print("], trsf=[",end='')
+        for j, trsf in enumerate(self.trsf):
+            print("\"{}({})\"".format(trsf.name,trsf.line),end='')
         print("]")
         
 def search_station(searchname, searchline=None):
@@ -22,13 +25,21 @@ def search_station(searchname, searchline=None):
     if searchline!=None and searchline>0 and searchline<=len(NodeList):
         for _, Stations in enumerate(NodeList):
             for j, station in enumerate(Stations):
-                if station.name is searchname and station.line is searchline:
+                # station.printnode()
+                # print("searchname{},{}/".format(type(searchname),searchname))
+                # print("stationame{},{}/".format(type(station.name),station.name))
+                # print("searchline{},{}/".format(type(searchline),searchline))
+                # print("stationlin{},{}/".format(type(station.line),station.line))
+                # print(station.name == searchname)
+                # print(station.line == searchline)
+                if (station.name == searchname) and (station.line == searchline):
+                    # print("!!!!!!!!!!")
                     return station
     else:
         # print("NodeList={}".format(NodeList))
         for i, Stations in enumerate(NodeList):
-            print("i={}, Stations=  {}".format(i, Stations))
-            print("search from line#{}".format(i+1))
+            # print("i={}, Stations=  {}".format(i, Stations))
+            # print("search from line#{}".format(i+1))
             for j, station in enumerate(Stations):
                 if station.name == searchname:
                     return station
@@ -36,40 +47,40 @@ def search_station(searchname, searchline=None):
 
 
 ################ StationList Initialization ################
+# filename="./stations_Done_data_processing.txt"
+filename="./station_minimal.txt"
 def getlinelist():
-    f=open("./stations_Done_data_processing.txt","r",encoding="UTF-8")
+    f=open(filename,"r",encoding="UTF-8")
     rdline = f.readline().strip()
     stationline=0
     while rdline != '':
-        print("rdline:\"{}\"".format(rdline))
+        # print("rdline:\"{}\"".format(rdline))
         stations = rdline.split(",")
-        print("stations={}".format(stations))
+        # print("stations={}".format(stations))
         if stations[0].isnumeric():
-            print("stations[0].isnumeric()")
+            # print("stations[0].isnumeric()")
             stationline = int(stations[0])
             while len(NodeList)<stationline:
                 NodeList.append([])
             print("stationline=",stationline)
-            print(NodeList)
+            # print(NodeList)
         else:
             for i, stationname in enumerate(stations):
-                print("stationname=\"{}\"".format(stationname))
                 found = search_station(stationname)
-                if found is False:  # if new node
-                    print("if found is False:")
-                    if(i<=0): # if 분기점 or 시작점
+                if found == False:  # 이전에 없던 역 이름인경우
+                    if(i<=0):           # 분기점 or 시작점 인 경우
                         newnode = StationNode(stationname, stationline)
                         NodeList[stationline-1].append(newnode)
-                    else:
+                    else:               # 분기점 or 시작점이 아닌경우(일반적인 중간역들)
                         newnode = StationNode(stationname, stationline)
-                        prevstation = search_station(stations[i-1])
+                        prevstation = search_station(stations[i-1], stationline)
                         newnode.prev.append(prevstation)
                         prevstation.next.append(newnode)
                         NodeList[stationline-1].append(newnode)
-                else:   # if already exist station
-                    print("else:")
-                    if found.line is not stationline:   # another line station with same name
-                        print("another line!")
+                else:               # 이미 존재하는 역 이름인경우
+                    if found.line != stationline:
+                                        # 다른 라인의 같은이름역을 찾은경우
+                        # print("another line!")
                         newnode = StationNode(stationname, stationline)
                         NodeList[stationline-1].append(newnode)
                         found.trsf.append(newnode)
@@ -78,16 +89,20 @@ def getlinelist():
     f.close()
 ############################################################
 
-
 NodeList=[]
 getlinelist()
+sicheong = search_station("시청",2)
+chungjeongro = search_station("충정로",2)
+sicheong.prev.append(chungjeongro)
+chungjeongro.next.append(sicheong)
 
 
 ############ search_station ############
 ## let's try testing search function! change "을지로" to another station name.
 ## Because "을지로" doesn't exist, {search_result} shows name "NotFound".
 ## If you change it to existing name, then you can get right result.
-search_result = search_station("방화")
-print("NodeList=")
-print(NodeList)
-print("result=name{},line{},prev{},next{},trsf{}".format(search_result.name, search_result.line, search_result.prev, search_result.next,search_result.trsf))
+
+# search_result = search_station("방화")
+for i,NodeLine in enumerate(NodeList):
+    for j, Node in enumerate(NodeLine):
+        Node.printnode()
