@@ -55,7 +55,7 @@ cf) ...-월계-성북-석계-신이문-외대앞-...
    
 <img src="https://user-images.githubusercontent.com/60608787/169886693-7db83e11-105d-42d5-917f-245185379547.jpg" width=75%>   
 
-<img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.wenyanet.com%2Fopensource%2Fko%2F60b8fabd29b0b36fe960cdb6.html&psig=AOvVaw32SLSzmvAfANwx51_L0b6A&ust=1653485866547000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCOCY5oOh-PcCFQAAAAAdAAAAABAP" width=75%>   
+<img src=" https://www.google.com/imgres?imgurl=https%3A%2F%2Fcamo.githubusercontent.com%2Ffe3cc4d3cb58c694c1e205c3628d3ba9b1235e0d00ea8f2d84d9b7f3a54d1bfa%2F68747470733a2f2f7777772e6564756361746976652e696f2f6170692f656470726573736f2f73686f742f363733383334373932333836353630302f696d6167652f34353837353237313139383331303430&imgrefurl=https%3A%2F%2Fwww.wenyanet.com%2Fopensource%2Fko%2F60b8fabd29b0b36fe960cdb6.html&tbnid=D_uZhL_HTqdmHM&vet=12ahUKEwiplK-UpPj3AhUQFIgKHdmgDg8QMygQegUIARDUAQ..i&docid=y47c2Hp34J-MvM&w=644&h=234&itg=1&q=adjacency%20list%20python&ved=2ahUKEwiplK-UpPj3AhUQFIgKHdmgDg8QMygQegUIARDUAQ" width=75%>   
 
 현재 목표로 하는 데이터 구조는 다음과 같습니다. 마찬가지로 번호는 임의로 적었습니다.
                            1호선역32 = [{"name":"시청"}, next, prev, trsf}
