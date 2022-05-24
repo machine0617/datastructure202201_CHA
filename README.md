@@ -73,6 +73,9 @@ cf) ...-월계-성북-석계-신이문-외대앞-...
 
 <img src="https://github.com/machine0617/datastructure202201_CHA/blob/main/adjacency_list.svg" width=75%>   
 
+<img src="https://github.com/machine0617/datastructure202201_CHA/blob/main/data_structure.PNG?raw=true
+" width=75%>   
+
 
                            
 
