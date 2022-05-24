@@ -13,10 +13,11 @@
 - [x] ~~NodeList 방식을 바꾸기 -> 오직 Linked List 방식으로 구현해야함.~~   
         - ~~text file에서 읽어오면서 append하는식으로..~~   
         - ~~어디분기점에 연결해야하는지는 새로운 search 함수를 사용해야함.~~   
-          - 이때 search 함수는 StationNode 클래스에 포함시킨다.   
-- [ ] 환승역 처리방식을 구상하기   
+- [x] ~~환승역 처리방식을 구상하기~~   
 - [x] ~~"stations_Done_data_processing.txt" 토대로 NodeList에 집어넣기~~   
         - ~~아마 이 위쪽 두개는 NodeList방식을 바꾸면서 저절로 이루어질듯함.~~   
+- [ ] getlinelist()의 조건문을 더 체계적으로 정리하여, 정보업데이트가 누락되는 현상을 해결해야함.   
+         - 분기점or시작점인경우, 이미존재하는 역이름인경우<- 의심되는구간. 노드간의 연결이 이루어지지 않음.
 - [ ] spanning tree/BFS or DFS 사용하여 탐색알고리즘 구현   
    
    
