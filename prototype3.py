@@ -63,53 +63,51 @@ def getlinelist():
             stationline = int(stations[0])
             while len(NodeList)<stationline:
                 NodeList.append([])
-            print("stationline=",stationline)
+            # print("stationline=",stationline)
             # print(NodeList)
         else:
             for i, stationname in enumerate(stations):
-                found = search_station(stationname)
-                print("i={}".format(i))
-                if(found!=False):
-                    print("found={}({})".format(found.name, found.line))
-                else:
-                    print("found={}".format(found))
-                if found == False:
-                    if(i<=0):
+                found = search_station(stationname,stationline)
+                # print("i={}".format(i))
+                # if(found!=False):
+                #     print("found={}({})".format(found.name, found.line))
+                # else:
+                #     print("found={}".format(found))
+
+                # 만약 새로운역이면 추가. 이미 존재하는역(현재 라인 내에서 한정)일경우 패스
+                if found == False:  # new station in current line
+                    if(i<=0):       # 분기점 or 시작점
                         newnode = StationNode(stationname, stationline)
+
+                        ##환승역 체크. 다른노선에 동일명의 역이 존재할경우 trsf에 추가##
+                        trsffound = search_station(stationname)
+                        if trsffound != False:
+                            newnode.trsf.append(trsffound)
+                            trsffound.trsf.append(newnode)
+                        ###################################################
+
                         NodeList[stationline-1].append(newnode)
-                    elif(i>0):
+                    elif(i>0):      # 그냥 중간역
                         newnode = StationNode(stationname, stationline)
+
+                        ##환승역 체크. 다른노선에 동일명의 역이 존재할경우 trsf에 추가##
+                        trsffound = search_station(stationname)
+                        if trsffound != False:
+                            newnode.trsf.append(trsffound)
+                            trsffound.trsf.append(newnode)
+                        ###################################################
+
                         prevstation = search_station(stations[i-1], stationline)
                         prevstation.next.append(newnode)
                         newnode.prev.append(prevstation)
                         NodeList[stationline-1].append(newnode)
-                else:   # found != False
-                    if found.line != stationline:
-                        newnode = StationNode(stationname, stationline)
-                        found.trsf.append(newnode)
-                        newnode.trsf.append(found)
-                        NodeList[stationline-1].append(newnode)
-
-            # for i, stationname in enumerate(stations):
-            #     found = search_station(stationname)
-            #     if found == False:  # 이전에 없던 역 이름인경우
-            #         if(i<=0):           # 분기점 or 시작점 인 경우
-            #             newnode = StationNode(stationname, stationline)
-            #             NodeList[stationline-1].append(newnode)
-            #         else:               # 분기점 or 시작점이 아닌경우(일반적인 중간역들)
-            #             newnode = StationNode(stationname, stationline)
-            #             prevstation = search_station(stations[i-1], stationline)
-            #             newnode.prev.append(prevstation)
-            #             prevstation.next.append(newnode)
-            #             NodeList[stationline-1].append(newnode)
-            #     else:               # 이미 존재하는 역 이름인경우
-            #         if found.line != stationline:
-            #                             # 다른 라인의 같은이름역을 찾은경우
-            #             # print("another line!")
-            #             newnode = StationNode(stationname, stationline)
-            #             NodeList[stationline-1].append(newnode)
-            #             found.trsf.append(newnode)
-            #             newnode.trsf.append(found)
+                
+        # print("-------------------------------------------")
+        # for i,NodeLine in enumerate(NodeList):
+        #     for j, Node in enumerate(NodeLine):
+        #         Node.printnode()
+        # print("-------------------------------------------")
+        # input()
         rdline = f.readline().strip()
     f.close()
 ############################################################
