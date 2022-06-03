@@ -2,7 +2,7 @@ import pandas as pd
 
 #파일 전처리(이상한 부분 삭제)
 filename = './edges.csv'
-rawData = pd.read_csv(filename,encoding='cp949')
+rawData = pd.read_csv(filename,encoding='UTF-8')
 file =  rawData
 
 class StationNode:
