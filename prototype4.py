@@ -1,11 +1,9 @@
 import pandas as pd
 
 #파일 전처리(이상한 부분 삭제)
-filename = 'C:/Users/SAMSUNG/source/repos/Station_Edge/Station_Edge/edges.csv'
+filename = './edges.csv'
 rawData = pd.read_csv(filename,encoding='cp949')
-file =  rawData.drop(['del1'], axis = 1)
-for i in range(2,5):
-    file = file.drop(['del{}'.format(i)], axis = 1)
+file =  rawData
 
 class StationNode:
     def __init__(self, name, line):
@@ -103,7 +101,7 @@ def getlinelist():
                     newnode.trsf[i].append(trsffound)
                     trsffound.trsf[j].append(newnode)
                     newnode.trsf[i].append(edge)
-                    trsffound.trsf[j],append(edge)
+                    trsffound.trsf[j].append(edge)
                     #print(newnode.trsf)
                     #print(trsffound.trsf)
            ###################################################
@@ -113,17 +111,18 @@ def getlinelist():
             else:      # 그냥 중간역
                 newnode = StationNode(stationname, stationline)
                 ##환승역 체크. 다른노선에 동일명의 역이 존재할경우 trsf에 추가##
-                trsffound = search_station(stationname)
-                if trsffound != False:
-                    edge = 3
-                    i = append_trsf(newnode)
-                    j = append_trsf(trsffound)
-                    newnode.trsf[i].append(trsffound)
-                    trsffound.trsf[j].append(newnode)
-                    newnode.trsf[i].append(edge)
-                    trsffound.trsf[j].append(edge)
-                    #print(newnode.trsf)
-                    #print(trsffound.trsf)
+                for checkline in range(1,5):
+                    trsffound = search_station(stationname,checkline)
+                    if trsffound != False:
+                        edge = 3
+                        i = append_trsf(newnode)
+                        j = append_trsf(trsffound)
+                        newnode.trsf[i].append(trsffound)
+                        trsffound.trsf[j].append(newnode)
+                        newnode.trsf[i].append(edge)
+                        trsffound.trsf[j].append(edge)
+                        #print(newnode.trsf)
+                        #print(trsffound.trsf)
                         ###################################################
 
                 prevstation = search_station(file.iloc[idx-1,1],file.iloc[idx-1,0])
