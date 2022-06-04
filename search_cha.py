@@ -1,4 +1,5 @@
-## 현재 같은 노선에서 탐색하는건 문제가 없으나, 환승이 안 되는 문제 발생, 수정 
+## 현재 같은 노선에서 탐색하는건 문제가 없으나, 환승이 안 되는 문제 발생, 수정 중
+## 다익스트라 알고리즘 사용 reference : https://www.youtube.com/watch?v=pORmQSzQCZk&t=365s
 
 import pandas as pd
 
