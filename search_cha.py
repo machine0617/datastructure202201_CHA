@@ -1,3 +1,5 @@
+## 현재 같은 노선에서 탐색하는건 문제가 없으나, 환승이 안 되는 문제 발생, 수정 
+
 import pandas as pd
 
 filename = 'C:/Users/SAMSUNG/source/edges.csv'
@@ -168,6 +170,7 @@ seongsu.next[0].append(1)
 #    for j, Node in enumerate(NodeLine):
 #        Node.printnode()
 
+
 def search_trsf(next, node):
     for i, trsf in enumerate(node.trsf):
         trsf_com = trsf[0]
@@ -176,7 +179,7 @@ def search_trsf(next, node):
 
 def search(dir, nodename, end, time = 0):
     node = search_station(nodename)
-    print("nodename : {} line : {}".format(node.name, node.line))
+    print("{} : {}".format(node.name, node.line))
     if node.time > time:
         node.time = time
         dir.append(node)
@@ -189,20 +192,17 @@ def search(dir, nodename, end, time = 0):
         print(time)
         return '도착'
 
-    if node.trsf != False:  #환승이 존재할 때 환승
-        for trsf in node.trsf:
-            trsf_time = trsf[1]
-            trsf = trsf[0]
-            time = time + trsf_time
-            search(list(dir), trsf.name, end, time)        
-    for next in node.next:
+    next_direction = node.next
+    next_direction = next_direction + node.trsf
+    for direction in next_direction:
+        direction = direction[0]
+        print("{} : {} ".format(direction.name, direction.line))     
+    for next in next_direction:
+        if node.next == False:
+            return 0    
         next_time = next[1]
         next = next[0]
-        if node.line == next.line:
-            time = time + next_time
-        else:
-            trsf = search_trsf(next, node)
-            time = time + next.time + trsf[1]
+        time = time + next_time
         search(list(dir), next.name , end, time)
 
 search([], '의정부', '뚝섬')
