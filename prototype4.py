@@ -165,4 +165,4 @@ seongsu.next[0].append(1)
 # search_result = search_station("방화")
 for i,NodeLine in enumerate(NodeList):
     for j, Node in enumerate(NodeLine):
-        Node.printnode()
+        Node.printnode() 
