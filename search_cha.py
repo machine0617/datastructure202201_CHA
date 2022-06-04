@@ -1,4 +1,5 @@
-## 현재 같은 노선에서 탐색하는건 문제가 없으나, 환승이 안 되는 문제 발생, 수정 중
+## 실행 성공. 오류 찾아봐야 함
+## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향으로 가야하는 탐색은 아직 안  
 ## 다익스트라 알고리즘 사용 reference : https://www.youtube.com/watch?v=pORmQSzQCZk&t=365s
 
 import pandas as pd
@@ -171,16 +172,18 @@ seongsu.next[0].append(1)
 #    for j, Node in enumerate(NodeLine):
 #        Node.printnode()
 
-
 def search_trsf(next, node):
     for i, trsf in enumerate(node.trsf):
         trsf_com = trsf[0]
         if next.line == trsf_com.line:
             return trsf
 
-def search(dir, nodename, end, time = 0):
-    node = search_station(nodename)
-    print("{} : {}".format(node.name, node.line))
+def search(dir, nodename, end ,nodeline = 0, time = 0):
+    if nodeline == 0:
+        node = search_station(nodename)
+    else :
+        node = search_station(nodename, nodeline)
+    #print("{}({})".format(node.name, node.line))
     if node.time > time:
         node.time = time
         dir.append(node)
@@ -189,21 +192,16 @@ def search(dir, nodename, end, time = 0):
 
     if (node.name == end):
         for node in dir:
-            print("{}({})".format(node.name, node.line))
+            print("{}({})".format(node.name, node.line), end = '->')
         print(time)
         return '도착'
 
     next_direction = node.next
     next_direction = next_direction + node.trsf
-    for direction in next_direction:
-        direction = direction[0]
-        print("{} : {} ".format(direction.name, direction.line))     
     for next in next_direction:
-        if node.next == False:
-            return 0    
         next_time = next[1]
         next = next[0]
         time = time + next_time
-        search(list(dir), next.name , end, time)
+        search(list(dir), next.name, end, next.line ,time)
 
 search([], '의정부', '뚝섬')
