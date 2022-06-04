@@ -1,6 +1,6 @@
 import pandas as pd
 
-filename = 'C:/Users/SAMSUNG/source/edges.csv'
+filename = './edges.csv'
 file = pd.read_csv(filename,encoding='UTF-8') 
 
 class StationNode:
