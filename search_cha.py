@@ -1,5 +1,5 @@
 ## 실행 성공. 오류 찾아봐야 함
-## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향으로 가야하는 탐색은 아직 안  
+## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향 탐색은 구현 안 됨.
 ## 다익스트라 알고리즘 사용 reference : https://www.youtube.com/watch?v=pORmQSzQCZk&t=365s
 
 import pandas as pd
