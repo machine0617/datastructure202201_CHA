@@ -1,4 +1,4 @@
-## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향 탐색은 구현 안 됨. 수정 중 >> 방향 상관 없이 탐색 성공! 현재 발견되는 오류 없음
+## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향 탐색은 구현 안 됨. 수정 중
 ## 다익스트라 알고리즘 사용 reference : https://www.youtube.com/watch?v=pORmQSzQCZk&t=365s
 
 import pandas as pd
@@ -172,41 +172,37 @@ seongsu.next[0].append(1)
 #    for j, Node in enumerate(NodeLine):
 #        Node.printnode()
 
-def search_trsf(next, node):
-    for i, trsf in enumerate(node.trsf):
-        trsf_com = trsf[0]
-        if next.line == trsf_com.line:
-            return trsf
+## dir : 경로 배열, nodename:탐색 경로 출발지, end : 도착지, time : 현재 경로(dir)가 가진 소요시간
 
 def search(dir, nodename, end ,nodeline = 0, time = 0):
-    if nodeline == 0:
+
+    ## 현재 노드에 저장되어 있는 최단 경로의 시간(StationNode class의 time 변수)과 비교했을 때,
+    ## 현재 경로의 시간이 더 적으면 node.time 갱신, 아닐시 return 0
+    if nodeline == 0: 
         node = search_station(nodename)
     else :
         node = search_station(nodename, nodeline)
-    #print("{}({})".format(node.name, node.line))
+
     if node.time > time:
         node.time = time
         dir.append(node)
     else:
         return 
 
-    if (node.name == end):
+    if (node.name == end): #도착시 코드 종료
         for node in dir:
             print("{}({})".format(node.name, node.line), end = '->')
         print(time, "도착")
         return '도착'
 
+    ## 다음 탐색 지점 설정, prev, next, trsf를 포함하되 바로 직전 노드는 제외함.
+    ## ex : 개봉(1) -> 구일(1)일 경우, 구일(1)의 탐색 지점에서 개봉(1) 제외 
     next_direction = node.next
     prev = []
     prev.append(node.prev)
     if len(node.prev) != 0 and len(node.next) != 0:
         next_direction = next_direction + node.trsf + prev
     #print("{}({})->".format(node.name, node.line))
-    for dirs in next_direction:
-        #print(dirs)
-        if len(dirs) != 0:
-            dirs = dirs[0]
-            #print("{}({})".format(dirs.name, dirs.line), end = ' , ')
     
     if len(dir) >= 2:
         prev_path = dir[len(dir)-2]
@@ -223,6 +219,8 @@ def search(dir, nodename, end ,nodeline = 0, time = 0):
     
     #print("#######################")
 
+    ## 아까 설정한 탐색 지정에 대해 탐색함. 환승(현재 name과 다음 탐색지의 name이 같음)을 제외하고
+    ## 탐색지의 name이 경로 안에 있을 시, cycle을 이룬다고 판단, 경로 종로
     if len(next_direction) != 0:
         for next in next_direction:
             next_time = next[1]
@@ -233,6 +231,6 @@ def search(dir, nodename, end ,nodeline = 0, time = 0):
                 if name[len(name)-1] != next.name:
                     #print("cycle")
                     return 0
-            search(list(dir), next.name, end, next.line ,time = time+next_time)
+            search(list(dir), next.name, end, next.line ,time = time + next_time)
 
 search([], '부평', '합정')
