@@ -1,10 +1,10 @@
-## 실행 성공. 오류 찾아봐야 함
-## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향 탐색은 구현 안 됨.
+## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향 탐색은 구현 안 됨. 수정 중
 ## 다익스트라 알고리즘 사용 reference : https://www.youtube.com/watch?v=pORmQSzQCZk&t=365s
 
 import pandas as pd
+from sklearn.metrics import plot_precision_recall_curve
 
-filename = 'C:/Users/SAMSUNG/source/edges.csv'
+filename = './edges.csv'
 file = pd.read_csv(filename,encoding='UTF-8') 
 
 class StationNode:
@@ -197,11 +197,32 @@ def search(dir, nodename, end ,nodeline = 0, time = 0):
         return '도착'
 
     next_direction = node.next
-    next_direction = next_direction + node.trsf
+    prev = []
+    prev.append(node.prev)
+    next_direction = next_direction + node.trsf + prev
+    if len(dir) >= 1:
+        prev_path = dir[len(dir)-1]
+        print(next_direction)
+        for direction in next_direction:
+            direction_name = direction[0]
+            if direction_name.name == prev_path.name:
+                next_direction.remove(direction)
+        print(next_direction)
+    for dirs in next_direction:
+        dirs = dirs[0]
+        print("{}({}) -> {}({})".format(node.name, node.line, dirs.name, dirs.line), end = ' , ')
+    print("#######################")
+
+        
     for next in next_direction:
         next_time = next[1]
         next = next[0]
-        time = time + next_time
+        name = [ node.name for node in dir ]
+        #print(" 목적지 : {}({}), 현재경로 : {}({})".format(next.name, next.line, name, node.line))
+        if next.name in name:
+            if name[len(name)-1] != next.name:
+                #print("cycle")
+                return 0
         search(list(dir), next.name, end, next.line ,time)
 
-search([], '의정부', '뚝섬')
+search([], '명학', '관악')
