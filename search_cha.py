@@ -220,7 +220,7 @@ def search(dir, nodename, end ,nodeline = 0, time = 0):
     #print("#######################")
 
     ## 아까 설정한 탐색 지정에 대해 탐색함. 환승(현재 name과 다음 탐색지의 name이 같음)을 제외하고
-    ## 탐색지의 name이 경로 안에 있을 시, cycle을 이룬다고 판단, 경로 종로
+    ## 탐색지의 name이 경로 안에 있을 시, cycle을 이룬다고 판단. 경로 종료
     if len(next_direction) != 0:
         for next in next_direction:
             next_time = next[1]
