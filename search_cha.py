@@ -1,10 +1,10 @@
-## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향 탐색은 구현 안 됨. 수정 중
+## 의정부 > 뚝섬처럼 next 순서대로 하는 탐색은 성공, 그러나 pre 방향 탐색은 구현 안 됨. 수정 중 >> 방향 상관 없이 탐색 성공! 현재 발견되는 오류 없음
 ## 다익스트라 알고리즘 사용 reference : https://www.youtube.com/watch?v=pORmQSzQCZk&t=365s
 
 import pandas as pd
-from sklearn.metrics import plot_precision_recall_curve
+#from sklearn.metrics import plot_precision_recall_curve
 
-filename = './edges.csv'
+filename = 'C:/Users/SAMSUNG/source/repos/Station_Edge/Station_Edge/edges.csv'
 file = pd.read_csv(filename,encoding='UTF-8') 
 
 class StationNode:
@@ -193,36 +193,46 @@ def search(dir, nodename, end ,nodeline = 0, time = 0):
     if (node.name == end):
         for node in dir:
             print("{}({})".format(node.name, node.line), end = '->')
-        print(time)
+        print(time, "도착")
         return '도착'
 
     next_direction = node.next
     prev = []
     prev.append(node.prev)
-    next_direction = next_direction + node.trsf + prev
-    if len(dir) >= 1:
-        prev_path = dir[len(dir)-1]
-        print(next_direction)
+    if len(node.prev) != 0 and len(node.next) != 0:
+        next_direction = next_direction + node.trsf + prev
+    #print("{}({})->".format(node.name, node.line))
+    for dirs in next_direction:
+        #print(dirs)
+        if len(dirs) != 0:
+            dirs = dirs[0]
+            #print("{}({})".format(dirs.name, dirs.line), end = ' , ')
+    
+    if len(dir) >= 2:
+        prev_path = dir[len(dir)-2]
+        #print("이전 {}({})".format(prev_path.name, prev_path.line))
+        #print(next_direction)
         for direction in next_direction:
             direction_name = direction[0]
             if direction_name.name == prev_path.name:
+                #print("삭제 {}({})".format(direction_name.name, direction_name.line))
                 next_direction.remove(direction)
-        print(next_direction)
-    for dirs in next_direction:
-        dirs = dirs[0]
-        print("{}({}) -> {}({})".format(node.name, node.line, dirs.name, dirs.line), end = ' , ')
-    print("#######################")
+            if next_direction == False:
+                break
+        #print(next_direction)
+    
+    #print("#######################")
 
-        
-    for next in next_direction:
-        next_time = next[1]
-        next = next[0]
-        name = [ node.name for node in dir ]
-        #print(" 목적지 : {}({}), 현재경로 : {}({})".format(next.name, next.line, name, node.line))
-        if next.name in name:
-            if name[len(name)-1] != next.name:
-                #print("cycle")
-                return 0
-        search(list(dir), next.name, end, next.line ,time)
+    if len(next_direction) != 0:
+        for next in next_direction:
+            next_time = next[1]
+            next = next[0]
+            name = [ node.name for node in dir ]
+            #print(" 목적지 : {}({}), 현재경로 : {}({})".format(next.name, next.line, name, node.line))
+            if next.name in name:
+                if name[len(name)-1] != next.name:
+                    #print("cycle")
+                    return 0
+            search(list(dir), next.name, end, next.line ,time = time+next_time)
 
-search([], '명학', '관악')
+search([], '부평', '합정')
