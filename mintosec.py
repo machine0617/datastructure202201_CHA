@@ -2,7 +2,7 @@ import pandas as pd
 filename = './edges_ori.csv'
 file = pd.read_csv(filename,encoding='UTF-8') 
 
-output = open("output.csv",'w',encoding='utf-8')
+output = open("edges_sec.csv",'w',encoding='utf-8')
 output.write("호선,역,시간(sec)\n")
 for (idx, row) in (file.iterrows()):
     if type(row[2])==str:
