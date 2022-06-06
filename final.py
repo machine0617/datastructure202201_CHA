@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 
 def StationDict(_station, _time):
     return {"station":_station, "time":_time}
@@ -47,13 +48,15 @@ def search_station(searchname, searchline=None):
                     return station
     return False
 
-def check_trsf(newnode, searchname):
+def check_trsf(newnode, searchname,trsf_time):
     for checkline in range(1,newnode.line):
         trsffound = search_station(searchname, checkline)
         if trsffound:
-            edge = 180
+            edge = trsf_time
             newnode.append_trsf(trsffound, edge)
             trsffound.append_trsf(newnode, edge)
+            print("현재{}({})".format(newnode.name, newnode.line))
+            print("환승{}({})".format(trsffound.name, trsffound.line))
 
 ################ StationList Initialization ################
 
@@ -61,9 +64,13 @@ def getlinelist():
     #Data로 file 사용
     prev=StationNode("None","0")
     for (idx, row) in (file.iterrows()):
-        stationline = row[0]
-        stationname = row[1]
-        time = row[2]
+        #print("{} /{} /{}/{}".format(idx,row[0],row[1],row[2]))
+        stationline = idx
+        stationname = row[0]
+        time = row[1]
+        trsf_time = 0
+        if math.isnan(row[2]) == False:
+            trsf_time = row[2]
 
         while len(NodeList)<stationline:
             NodeList.append([])
@@ -80,7 +87,7 @@ def getlinelist():
                 #시작점 (호선이 달라지는 경우)
 
                 ##환승역 체크. 다른노선에 동일명의 역이 존재할경우 trsf에추가
-                check_trsf(newnode, stationname)
+                check_trsf(newnode, stationname, trsf_time)
                 #NodeList에 새로운 노드 추가
                 NodeList[stationline-1].append(newnode)
                 prev = newnode
@@ -89,7 +96,7 @@ def getlinelist():
                 #그냥 중간역
 
                 ##환승역 체크. 다른노선에 동일명의 역이 존재할경우 trsf에추가
-                check_trsf(newnode,stationname)
+                check_trsf(newnode,stationname, trsf_time)
                 ##이전역과 현재역을 연결
                 prev.append_next(newnode, time)
                 # "이전역에서오는시간=이전역으로가는시간"으로 가정하면
@@ -103,7 +110,8 @@ def getlinelist():
                 
 ############################################################
 # 파일 전처리
-filename = './edges_sec.csv'
+filename = './edges_trsf.csv'
+
 file = pd.read_csv(filename,encoding='UTF-8')
 
 # 맵 생성
@@ -116,7 +124,38 @@ time=90
 DS.append_prev(SS,time)
 SS.append_next(DS,time)
 
+## trsf 예외항목 -> 종로3가, 동대문역사문화공원 trsf time 추가
+JR3_1 = search_station("종로3가",1)
+JR3_3 = search_station("종로3가",3)
+JR3_5 = search_station("종로3가",5)
+JR = [JR3_1, JR3_3, JR3_5]
+for jr in JR:
+    for i in range(len(jr.trsf)):
+        if jr.line + jr.trsf[i]['station'].line == 6:
+            jr.trsf[i]['time'] = 300
+        if jr.line + jr.trsf[i]['station'].line == 4:
+            jr.trsf[i]['time'] = 120
+        if jr.line + jr.trsf[i]['station'].line == 8:
+            jr.trsf[i]['time'] = 120
+        
+#print(JR3_1.trsf[0]['station'].line)
+
+DD_2 = search_station("동대문역사문화공원",2)
+DD_4 = search_station("동대문역사문화공원",4)
+DD_5 = search_station("동대문역사문화공원",5)
+
+DD = [DD_2, DD_4, DD_5]
+for dd in DD:
+    for i in range(len(dd.trsf)):
+        if dd.line + dd.trsf[i]['station'].line == 6:
+            dd.trsf[i]['time'] = 60
+        if dd.line + dd.trsf[i]['station'].line == 9:
+            dd.trsf[i]['time'] = 180
+        if dd.line + dd.trsf[i]['station'].line == 7:
+            dd.trsf[i]['time'] = 420
+
 # search_result = search_station("방화")
+
 for i,NodeLine in enumerate(NodeList):
     for j, Node in enumerate(NodeLine):
         Node.printnode()
@@ -179,4 +218,4 @@ def search(dir, nodename, end ,nodeline = 0, time = 0):
                     return 0
             search(list(dir), next.name, end, next.line ,time = time + next_time)
 
-search([], '녹양', '미아')
+search([], '을지로입구', '신금호')
